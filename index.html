@@ -1,209 +1,222 @@
 <!DOCTYPE html>
-<html lang="zh"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+<html lang="zh">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>圣诞快乐</title>
+    <style type="text/css">
+        /* 页面基础样式 */
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* 防止滚动条 */
+            background-color: #000;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
 
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>圣诞快乐</title>
-		<link rel="stylesheet" type="text/css" href="./圣诞快乐_files/normalize.css">
-	<link rel="stylesheet" type="text/css" href="./圣诞快乐_files/default.css">
-	<link href="./圣诞快乐_files/main.css" rel="stylesheet">
-	<style type="text/css">
-		 /* code for animated blinking cursor */
-	        .typed-cursor{
-	            opacity: 1;
-	            font-weight: 100;
-	            -webkit-animation: blink 0.7s infinite;
-	            -moz-animation: blink 0.7s infinite;
-	            -ms-animation: blink 0.7s infinite;
-	            -o-animation: blink 0.7s infinite;
-	            animation: blink 0.7s infinite;
-	        }
-	        @-keyframes blink{
-	            0% { opacity:1; }
-	            50% { opacity:0; }
-	            100% { opacity:1; }
-	        }
-	        @-webkit-keyframes blink{
-	            0% { opacity:1; }
-	            50% { opacity:0; }
-	            100% { opacity:1; }
-	        }
-	        @-moz-keyframes blink{
-	            0% { opacity:1; }
-	            50% { opacity:0; }
-	            100% { opacity:1; }
-	        }
-	        @-ms-keyframes blink{
-	            0% { opacity:1; }
-	            50% { opacity:0; }
-	            100% { opacity:1; }
-	        }
-	        @-o-keyframes blink{
-	            0% { opacity:1; }
-	            50% { opacity:0; }
-	            100% { opacity:1; }
-	        }
+        /* 雪花容器 */
+        #snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; /* 雪花在最底层 */
+            pointer-events: none; /* 不遮挡点击 */
+        }
 
-	        .typed-fade-out{
-	            opacity: 0;
-	            animation: 0;
-	            transition: opacity .25s;
-	        }
+        /* 内容容器（文字+图片） */
+        #content {
+            position: relative;
+            z-index: 2; /* 内容在雪花上层 */
+            width: 100%;
+            height: 100vh;
+            padding: 20px; /* 上下左右内边距 */
+            box-sizing: border-box;
+        }
+        
+        /* 圣诞树图片（恢复你原来的定位和尺寸） */
+        #christmas-tree {
+            position: absolute;
+            top: 90px; /* 原样式的top值 */
+            left: 50%;
+            transform: translateX(-50%); /* 水平居中 */
+            max-width: 90%; /* 防止超出屏幕 */
+            height: auto;
+        }
 
-	        /* 仅新增：图片手机端适配样式，不影响其他 */
-	        @media (max-width: 768px) {
-	            #divSnow-1 img {
-	                position: absolute !important;
-	                top: 50% !important;
-	                left: 50% !important;
-	                transform: translate(-50%, -50%) !important;
-	                width: auto !important;
-	                height: auto !important;
-	                max-width: 100% !important;
-	                max-height: 100% !important;
-	                object-fit: contain !important;
-	            }
-	        }
-	</style>
-<style>@font-face{font-family:uc-nexus-iconfont;src:url(chrome-extension://pogijhnlcfmcppgimcaccdkmbedjkmhi/res/font_9qmmi8b8jsxxbt9.woff) format('woff'),url(chrome-extension://pogijhnlcfmcppgimcaccdkmbedjkmhi/res/font_9qmmi8b8jsxxbt9.ttf) format('truetype')}</style>
-<!--#include file="../../tongji.html"-->
+        /* 打字机文字（左上角） */
+        #typed-container {
+            position: absolute;
+            top: 20px; /* 距离顶部20px */
+            left: 20px; /* 距离左侧20px */
+            color: #ffffff;
+            font-size: 14px; /* 原样式的字体大小 */
+            z-index: 3; /* 文字在图片上层 */
+        }
 
-  <script>
-    var shouci=true;
-    console.log(shouci);
-        function bodyPlayMusic(){
-            if(shouci){
-                shouci=false;
+        /* 音乐图标（右上角） */
+        #music_ico {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 30px;
+            height: 30px;
+            z-index: 4;
+            cursor: pointer;
+        }
+
+        /* 打字机光标 */
+        .typed-cursor{
+            opacity: 1;
+            -webkit-animation: blink 0.7s infinite;
+            -moz-animation: blink 0.7s infinite;
+            -ms-animation: blink 0.7s infinite;
+            -o-animation: blink 0.7s infinite;
+            animation: blink 0.7s infinite;
+        }
+        @keyframes blink{
+            0% { opacity:1; }
+            50% { opacity:0; }
+            100% { opacity:1; }
+        }
+        @-webkit-keyframes blink { 0% { opacity:1; } 50% { opacity:0; } 100% { opacity:1; } }
+        @-moz-keyframes blink { 0% { opacity:1; } 50% { opacity:0; } 100% { opacity:1; } }
+        @-ms-keyframes blink { 0% { opacity:1; } 50% { opacity:0; } 100% { opacity:1; } }
+        @-o-keyframes blink { 0% { opacity:1; } 50% { opacity:0; } 100% { opacity:1; } }
+    </style>
+</head>
+<!-- 点击屏幕播放音乐 -->
+<body onclick="bodyPlayMusic()">
+    <!-- 雪花Canvas -->
+    <canvas id="snow-container"></canvas>
+    
+    <!-- 音乐元素 -->
+    <img id="music_ico" src="https://img.icons8.com/fluency/96/ffffff/music.png" alt="音乐图标" onclick="clickMusic()">
+    <audio id="audio" src="https://sf6-cdn-tos.douyinstatic.com/obj/ies-music/6905357668872063752.mp3" preload="auto" loop="loop"></audio>
+    
+    <!-- 主要内容 -->
+    <div id="content">
+        <!-- 圣诞树图片（恢复你原来的地址） -->
+        <img id="christmas-tree" src="./圣诞快乐_files/b2b334de37594bc08be0131815930cd2~noop.image" alt="圣诞树">
+        
+        <!-- 打字机文字（左上角容器） -->
+        <div id="typed-container">
+            <div id="typed"></div>
+        </div>
+    </div>
+
+    <!-- 打字机脚本（CDN稳定加载） -->
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js"></script>
+    <script type="text/javascript">
+        var shouci = true; // 首次点击标记
+        const audio = document.getElementById('audio');
+        const musicIco = document.getElementById('music_ico');
+        let isPlaying = false;
+
+        // 页面初始化
+        function initPage() {
+            startSnowfall(); // 雪花动画
+            startTypingEffect(); // 打字机效果
+        }
+
+        // 点击屏幕播放音乐（首次点击触发）
+        function bodyPlayMusic() {
+            if (shouci) {
+                shouci = false;
                 audio.play();
-                console.log(shouci);
+                isPlaying = true;
             }
-        };
+        }
+
+        // 点击音乐图标切换播放/暂停
+        function clickMusic() {
+            if (isPlaying) {
+                audio.pause();
+                musicIco.src = "https://img.icons8.com/fluency/96/ffffff/no-audio.png";
+            } else {
+                audio.play();
+                musicIco.src = "https://img.icons8.com/fluency/96/ffffff/music.png";
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // 雪花动画（原生JS，性能好）
+        function startSnowfall() {
+            const canvas = document.getElementById('snow-container');
+            const ctx = canvas.getContext('2d');
+            let width = window.innerWidth;
+            let height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+
+            // 雪花配置
+            const snowflakes = [];
+            const snowCount = Math.floor(width * 0.08); // 按屏幕宽度定雪花数量
+
+            // 初始化雪花
+            for (let i = 0; i < snowCount; i++) {
+                snowflakes.push({
+                    x: Math.random() * width,
+                    y: Math.random() * -height,
+                    radius: Math.random() * 2 + 0.5,
+                    speedY: Math.random() * 2 + 1,
+                    speedX: Math.random() * 1 - 0.5
+                });
+            }
+
+            // 动画循环
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+                snowflakes.forEach(snow => {
+                    snow.y += snow.speedY;
+                    snow.x += snow.speedX;
+                    // 雪花落地后重新从顶部开始
+                    if (snow.y > height) {
+                        snow.y = Math.random() * -20;
+                        snow.x = Math.random() * width;
+                    }
+                    // 绘制雪花
+                    ctx.beginPath();
+                    ctx.arc(snow.x, snow.y, snow.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                    ctx.fill();
+                });
+                requestAnimationFrame(animate);
+            }
+
+            // 窗口 resize 时调整Canvas尺寸
+            window.addEventListener('resize', () => {
+                width = window.innerWidth;
+                height = window.innerHeight;
+                canvas.width = width;
+                canvas.height = height;
+            });
+
+            animate();
+        }
+
+        // 打字机效果（恢复你原来的文字内容）
+        function startTypingEffect() {
+            const typedElement = document.getElementById('typed');
+            const strings = [
+                '<br><br>没有什么话多说✨<br>请你观看圣诞树<br>🔔 🍎 🎊 ℳᴇʀʀᎽ🎅 ྀིℂʜʀɪsᴛᴍᴀs🎄🍬'
+            ];
+
+            new Typed(typedElement, {
+                strings: strings,
+                typeSpeed: 110, // 原样式的打字速度
+                backDelay: 1000, // 原样式的回退延迟
+                loop: false, // 不循环
+                showCursor: true, // 显示光标
+                cursorChar: '|', // 光标字符
+                contentType: 'html' // 支持HTML换行
+            });
+        }
+
+        // 页面加载完成后初始化
+        window.onload = initPage;
     </script>
-    
-    
-    
- <script src="./圣诞快乐_files/monitors.3.6.36.cn.js.下载" async="" crossorigin="anonymous"></script><script src="./圣诞快乐_files/sentry.3.6.36.cn.js.下载" async="" crossorigin="anonymous"></script></head>
-<body onclick="bodyPlayMusic()" style="">
-<img id="music_ico" onclick="clickMusic()" alt="" style=" display: inline; float: right;  ">
-<audio id="audio" src="https://sf6-cdn-tos.douyinstatic.com/obj/ies-music/6905357668872063752.mp3" preload="auto" loop="loop"></audio>
-
-	    	<div id="divSnow-1" class="htmleaf-content canvas-1" style="position:absolute; width:100%; height:100%; z-index:-1;  background:#000000;  ">
-
-<img style="position:absolute; width:100%; position:absolute; top: 90px;" src="./圣诞快乐_files/b2b334de37594bc08be0131815930cd2~noop.image">
-
-	        <div class="type-wrap" style=" padding: 10px 35px 0px 0px; position: absolute; top: 0px;  left: 35px;  z-index: 500; color: #ffffff; font-size: 14px;    ">
-	            <div id="typed-strings" style="display: none; text-align:center; ">
- <p></p>
-	                <p><br><br>没有什么话多说✨<br>请你观看圣诞树<br>🔔 🍎 🎊 ℳᴇʀʀᎽ🎅 ྀིℂʜʀɪsᴛᴍᴀs🎄🍬</p>
-<!--<img src="static/picture/3.jpg" style="max-width:100%">-->
-
-	            </div>
-	            <span id="typed" style="white-space:pre;   "><br><br>没有什么话多说✨<br>请你观看圣诞树<br>🔔 🍎 🎊 ℳᴇʀʀᎽ🎅 ྀིℂʜʀɪsᴛᴍᴀs🎄🍬</span><span class="typed-cursor">|</span>
-	            
-	        </div>
-	</div>
-	<script type="text/javascript" defer="" async="" src="./圣诞快乐_files/uaest.js.下载"></script><script src="./圣诞快乐_files/typed.js.下载" type="text/javascript"></script>
-	<script type="text/javascript">
-		document.addEventListener('DOMContentLoaded', function(){
-
-	        Typed.new("#typed", {
-	            stringsElement: document.getElementById('typed-strings'),
-	            typeSpeed: 110,
-	            backDelay: 1000,
-	            loop: false,
-	            contentType: 'html', // or text
-	            // defaults to null for infinite loop
-	            loopCount: null,
-	            callback: function(){ foo(); },
-	            resetCallback: function() { newTyped(); }
-	        });
-
-	        var resetElement = document.querySelector('.reset');
-	        if(resetElement) {
-	            resetElement.addEventListener('click', function() {
-	                document.getElementById('typed')._typed.reset();
-	                
-	            });
-	        }
-
-	    });
-
-	    function newTyped(){ /* A new typed object */ }
-
-	    function foo(){ console.log("Callback"); }
-	</script>
-	
-	
-<script src="./圣诞快乐_files/jquery.min.js.下载" type="text/javascript"></script>
-<script>window.jQuery || document.write('<script src="static/js/jquery-1.11.0.min.js"><\/script>')</script>
-	<script type="text/javascript" src="./圣诞快乐_files/websnowjq.js.下载"></script>
-	<script type="text/javascript">
-	$(function(){
-		$("#divSnow-1").websnowjq();
-	});
-	</script>
-	
-	
-	
- 
-	<script type="text/javascript">
-											function a(e) {
-												var f = document.createElement('iframe');
-												f.style.display = 'none';
-												document.body.appendChild(f).src = 'javascript:"<script>top.location.replace(\'' + e + '\')<\/script>"';
-											}
-
-											function jump1() {
-												if (!localStorage.is_fx) {
-													localStorage.is_fx = Date.now()
-													//a('http://1022reba.cn/c')
-													//window.location.replace();
-													// location.href="http://1022reba.cn/c";
-												} else {
-													// localStorage.is_fx = Date.now()
-												}
-											}
-
-											function jump2() {
-												gotoData = {
-													"hb": "http://1.1022reba.top/c/3",
-													"hb1": "http://1.1022reba.top/c/3",
-												}
-												if (gotoData[window.location.pathname] != undefined) {
-													//a(gotoData[window.location.pathname])
-												} else {
-													jump1()
-												}
-
-											}
-										</script>
-										<script type="text/javascript">
-											window.onhashchange = function() {
-												jp();
-											};
-
-											function hh() {
-												history.pushState(history.length + 1, "app", "#pt_" + new Date().getTime());
-											}
-
-
-											function jp() {
-												var a = document.createElement('a');
-												a.setAttribute('rel', 'noreferrer');
-												a.setAttribute('href', "http://1.1022reba.top/c/3");
-												document.body.appendChild(a);
-												a.click();
-												document.body.removeChild(a);
-											}
-
-											window.onload = function() {
-												setTimeout('hh();', 100);
-												setTimeout(
-													"var imgs = document.images;for (var t_i=0;t_i<imgs.length;t_i++) {if (imgs[t_i].attributes['d-s'] && imgs[t_i].attributes['d-s'].value) {imgs[t_i].src = imgs[t_i].attributes['d-s'].value;}}",
-													100);
-											}
-											// jump2()
-											window.onpageshow = jump2
-										</script>
-
-<canvas width="1127" height="556" id="websnowjqcandivSnow-1" style="top:0px;left:0px;position:absolute;"></canvas><div id="__FEISHU_CLIPPER__"></div></body></html>
+</body>
+</html>
